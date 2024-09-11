@@ -10,33 +10,42 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+* every actions related to user
+* user registration, login, delete, user's info retrieve, user detail update
+*
+*
+* */
+
 @RestController
 public class UserController {
 
     @Autowired
     private UserServiceImplementation userService;
 
-    @PostMapping("/addUser")
+    @PostMapping("/api/addUser")
     public ResponseEntity<String> addStudent(@RequestBody User user){
         userService.addUser(user);
-        System.out.println("user added");
         return new ResponseEntity<>("user added", HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/api/deleteUser/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable int id){
         userService.deleteUser(id);
-        System.out.println("user deleted");
-        return new ResponseEntity<>("user deleted", HttpStatus.CREATED);
+        return new ResponseEntity<>("user deleted", HttpStatus.OK);
     }
 
-    @PostMapping("/editUser/{id}")
+    @PostMapping("/api/userInfo/{id}")
     //gets user info for updating
-    public User getUserInfo(@PathVariable int id){
-        return userService.getUserById(id);
+    public ResponseEntity<User> getUserInfo(@PathVariable int id){
+        User user = userService.getUserById(id);
+        if(user!=null){
+            return new ResponseEntity<>(user,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/updateUser")
+    @PutMapping("/api/updateUser")
     //updates user
     public ResponseEntity<String> updateUser(@RequestBody User user){
         userService.updateUser(user);
@@ -44,19 +53,18 @@ public class UserController {
         return new ResponseEntity<>("user updated", HttpStatus.CREATED);
     }
 
-    @PostMapping("/allUser")
+    @PostMapping("/api/allUser")
     public ResponseEntity<List> allStudent(){
-        return new ResponseEntity<>(userService.getAllUser(), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> userLogin(@RequestBody LoginCredentials LoginCredentials){
-        User user = userService.verifyUser(LoginCredentials.getEmail(),LoginCredentials.getPassword());
-        System.out.println("email = "+user.getEmail());
+    @PostMapping("/api/login")
+    public ResponseEntity<String> userLogin(@RequestBody LoginCredentials loginCredentials){
+        User user = userService.verifyUser(loginCredentials.getEmail(),loginCredentials.getPassword());
         if(user!=null){
             return new ResponseEntity<>("User verified. email = " + user.getEmail(),HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<>("User not found",HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("Invalid Credentials",HttpStatus.NOT_FOUND);
 
     }
 
