@@ -16,5 +16,9 @@ public class Asset {
     private String name;
     @Lob
     private byte[] data;
-    private LocalDateTime uploadTime;
+    //private LocalDateTime uploadTime;
+
+    public Asset() {
+
+    }
 }

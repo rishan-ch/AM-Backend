@@ -18,24 +18,25 @@ import java.util.List;
 * */
 
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     private UserServiceImplementation userService;
 
-    @PostMapping("/api/addUser")
+    @PostMapping("/addUser")
     public ResponseEntity<String> addStudent(@RequestBody User user){
         userService.addUser(user);
         return new ResponseEntity<>("user added", HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/api/deleteUser/{id}")
+    @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable int id){
         userService.deleteUser(id);
         return new ResponseEntity<>("user deleted", HttpStatus.OK);
     }
 
-    @PostMapping("/api/userInfo/{id}")
+    @PostMapping("/userInfo/{id}")
     //gets user info for updating
     public ResponseEntity<User> getUserInfo(@PathVariable int id){
         User user = userService.getUserById(id);
@@ -45,7 +46,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/api/updateUser")
+    @PutMapping("/updateUser")
     //updates user
     public ResponseEntity<String> updateUser(@RequestBody User user){
         userService.updateUser(user);
@@ -53,12 +54,12 @@ public class UserController {
         return new ResponseEntity<>("user updated", HttpStatus.CREATED);
     }
 
-    @PostMapping("/api/allUser")
-    public ResponseEntity<List> allStudent(){
+    @PostMapping("/allUser")
+    public ResponseEntity<List<User>> allStudent(){
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public ResponseEntity<String> userLogin(@RequestBody LoginCredentials loginCredentials){
         User user = userService.verifyUser(loginCredentials.getEmail(),loginCredentials.getPassword());
         if(user!=null){
