@@ -1,5 +1,6 @@
 package com.asset.service;
 
+import com.asset.model.Asset;
 import com.asset.model.User;
 import org.springframework.stereotype.Service;
 
@@ -13,4 +14,6 @@ public interface UserService {
     User getUserById(int id);
     List<User> getAllUser();
     User verifyUser(String email, String password);
+
+
 }

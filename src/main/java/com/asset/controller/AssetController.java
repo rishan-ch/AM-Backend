@@ -17,10 +17,10 @@ public class AssetController {
     @Autowired
     private AssetServiceImplementation assetService;
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadAsset(@RequestParam("file")MultipartFile file){
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<String> uploadAsset(@RequestParam("file")MultipartFile file, @PathVariable int id){
         try{
-            assetService.addAsset(file);
+            assetService.addAsset(file,id);
             return new ResponseEntity<>("File added successfully", HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>("File not uploaded",HttpStatus.INTERNAL_SERVER_ERROR);
@@ -45,5 +45,10 @@ public class AssetController {
             return new ResponseEntity<>(asset,HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/getByUser/{id}")
+    public ResponseEntity<List<Asset>> getAssetByUser(@PathVariable int id){
+        return new ResponseEntity<>(assetService.getAssetByUserId(id),HttpStatus.OK);
     }
 }

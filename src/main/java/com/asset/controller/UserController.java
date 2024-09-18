@@ -51,7 +51,7 @@ public class UserController {
     public ResponseEntity<String> updateUser(@RequestBody User user){
         userService.updateUser(user);
         System.out.println("user updated");
-        return new ResponseEntity<>("user updated", HttpStatus.CREATED);
+        return new ResponseEntity<>("user updated", HttpStatus.OK);
     }
 
     @PostMapping("/allUser")
