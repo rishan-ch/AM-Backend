@@ -18,12 +18,22 @@ public class AssetController {
     private AssetServiceImplementation assetService;
 
     @PostMapping("/upload/{id}")
-    public ResponseEntity<String> uploadAsset(@RequestParam("file")MultipartFile file, @PathVariable int id){
+    public ResponseEntity<String> uploadAsset(@RequestParam("file")MultipartFile file, @RequestParam("image")MultipartFile image, @PathVariable int id){
         try{
-            assetService.addAsset(file,id);
+            assetService.addAsset(file, image,id);
             return new ResponseEntity<>("File added successfully", HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>("File not uploaded",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateAsset(@RequestParam("file")MultipartFile file,  @RequestParam("image")MultipartFile image,@PathVariable int id){
+        try{
+            assetService.updateAsset(file,image,id);
+            return new ResponseEntity<>("File updated successfully", HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("File not updated",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -51,4 +61,10 @@ public class AssetController {
     public ResponseEntity<List<Asset>> getAssetByUser(@PathVariable int id){
         return new ResponseEntity<>(assetService.getAssetByUserId(id),HttpStatus.OK);
     }
+
+    @GetMapping("/getByRecent")
+    public ResponseEntity<List<Asset>> getAssetByRecent(){
+        return new ResponseEntity<>(assetService.getRecent(),HttpStatus.OK);
+    }
+
 }

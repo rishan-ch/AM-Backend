@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface AssetRepository extends JpaRepository<Asset, Integer> {
     List<Asset> findByUser_id(int user_id);
-
+    List<Asset> findAllByOrderByUploadTimeDesc();
 }
