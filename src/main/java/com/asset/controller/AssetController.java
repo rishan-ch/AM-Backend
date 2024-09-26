@@ -30,6 +30,7 @@ public class AssetController {
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateAsset(@RequestParam("file")MultipartFile file,  @RequestParam("image")MultipartFile image,@PathVariable int id){
         try{
+            System.out.println("kdshf");
             assetService.updateAsset(file,image,id);
             return new ResponseEntity<>("File updated successfully", HttpStatus.OK);
         }catch(Exception e){
