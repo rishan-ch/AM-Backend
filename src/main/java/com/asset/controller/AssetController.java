@@ -65,7 +65,9 @@ public class AssetController {
 
     @GetMapping("/getByRecent")
     public ResponseEntity<List<Asset>> getAssetByRecent(){
+        int a =0;
         return new ResponseEntity<>(assetService.getRecent(),HttpStatus.OK);
+
     }
 
 }
